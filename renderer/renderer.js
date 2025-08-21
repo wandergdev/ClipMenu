@@ -1,4 +1,3 @@
-// renderer/renderer.js
 const listEl = document.getElementById('list');
 const searchEl = document.getElementById('search');
 const clearBtn = document.getElementById('clear');
@@ -10,6 +9,11 @@ let activeIndex = 0;
 function fmtTime(iso) {
   const d = new Date(iso);
   return d.toLocaleString();
+}
+
+// Función para eliminar un item
+function deleteItem(id) {
+  window.clipAPI.deleteItem(id);
 }
 
 function render() {
@@ -27,31 +31,17 @@ function render() {
     li.className = 'item' + (idx === activeIndex ? ' active' : '');
     li.dataset.id = it.id;
 
-    // Thumbnail a la izquierda
+    // Thumbnail
     const thumb = document.createElement('div');
     thumb.className = 'thumb';
-    if (it.type === 'image') {
-      thumb.textContent = 'IMG'
-      thumb.title = 'Image'
-    } else {
-      thumb.textContent = 'T';
-      thumb.title = 'Text';
-    }
+    thumb.textContent = it.type === 'image' ? 'IMG' : 'T';
+    thumb.title = it.type === 'image' ? 'Imagen' : 'Texto';
 
-    // Contenido (texto o imagen más grande)
+    // Contenido
     const content = document.createElement('div');
     content.className = 'content';
-
-    if (it.type === 'text') {
-      content.textContent = it.content;
-    } else {
-      // Prefijo "Img"
-      const label = document.createElement('div');
-      // label.textContent = 'Img';
-      // label.style.fontWeight = 'bold';
-      // label.style.marginBottom = '4px';
-
-      // Miniatura más grande
+    if (it.type === 'text') content.textContent = it.content;
+    else {
       const img = document.createElement('img');
       img.src = `file://${it.path}`;
       img.style.maxWidth = '160px';
@@ -59,35 +49,40 @@ function render() {
       img.style.objectFit = 'contain';
       img.style.borderRadius = '6px';
       img.style.boxShadow = '0 1px 3px rgba(0,0,0,0.2)';
-
-      content.appendChild(label);
       content.appendChild(img);
     }
 
-    // Metadata (fecha y hora)
+    // Metadata
     const meta = document.createElement('div');
     meta.className = 'meta';
     meta.textContent = fmtTime(it.when);
 
+    // Botón eliminar
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.textContent = '🗑️';
+    deleteBtn.title = 'Eliminar item';
+    deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // evita usar el item al hacer click
+      deleteItem(it.id);
+    });
+
     li.appendChild(thumb);
     li.appendChild(content);
     li.appendChild(meta);
-    li.addEventListener('click', () => useItem(it.id));
+    li.appendChild(deleteBtn);
+
+    li.addEventListener('click', () => window.clipAPI.useItem(it.id));
+
     listEl.appendChild(li);
   });
 
   // Asegura que el activo sea visible
   const active = listEl.querySelector('.item.active');
-  if (active) {
-    active.scrollIntoView({ block: 'nearest' });
-  }
+  if (active) active.scrollIntoView({ block: 'nearest' });
 }
 
-
-function useItem(id) {
-  window.clipAPI.useItem(id);
-}
-
+// Navegación y uso
 function setActive(idx) {
   if (!filtered.length) return;
   activeIndex = (idx + filtered.length) % filtered.length;
@@ -101,24 +96,25 @@ function filter() {
     filtered = items.filter(i =>
       i.type === 'text'
         ? i.content.toLowerCase().includes(q)
-        : '[imagen]'.includes(q) // simple
+        : '[imagen]'.includes(q)
     );
   }
   activeIndex = 0;
   render();
 }
 
-// Controles
+// Controles del teclado
 listEl.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown') { setActive(activeIndex + 1); e.preventDefault(); }
   if (e.key === 'ArrowUp') { setActive(activeIndex - 1); e.preventDefault(); }
   if (e.key === 'Enter') {
     const it = filtered[activeIndex];
-    if (it) useItem(it.id);
+    if (it) window.clipAPI.useItem(it.id);
     e.preventDefault();
   }
   if (e.key === 'Escape') window.close();
 });
+
 searchEl.addEventListener('input', filter);
 clearBtn.addEventListener('click', () => window.clipAPI.clearHistory());
 
@@ -131,7 +127,7 @@ async function boot() {
 
   window.clipAPI.onHistoryUpdated((h) => {
     items = h || [];
-    filter(); // mantiene el filtro
+    filter();
   });
 }
 

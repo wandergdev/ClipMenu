@@ -24,8 +24,17 @@
         "dmg",
         "zip"
       ],
-      "icon": "build/icon.icns"
+      "icon": "dist/icon.icns",
+      "extendInfo": {
+        "LSUIElement": true
+      }
     },
+    "dmg": {
+    "contents": [
+      { "x": 130, "y": 220, "type": "file" },
+      { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+    ]
+  },
     "asar": true
   },
   "devDependencies": {

@@ -127,6 +127,11 @@ function createWindow() {
   mainWindow.on('blur', () => {
     if (mainWindow && mainWindow.isVisible()) mainWindow.hide();
   });
+
+  mainWindow.on('close', (event) => {
+    event.preventDefault()
+    mainWindow.hide();
+  })
 }
 
 // --- Bandeja (barra de menú) ---
@@ -163,7 +168,6 @@ function toggleWindow() {
       mainWindow.focus();
       mainWindow.webContents.send('history-updated', history);
     });
-   
   }
 }
 
@@ -293,6 +297,23 @@ ipcMain.on('use-item', async (_evt, itemId) => {
 }, 200); // darle tiempo a Electron para ocultarse
   }
 });
+
+ipcMain.on('delete-item', (_evt, id) => {
+  const idx = history.findIndex(h => h.id === id);
+  if (idx !== -1) {
+    const [removed] = history.splice(idx, 1);
+
+    // Si es imagen, borrar archivo
+    if (removed.type === 'image' && fs.existsSync(removed.path)) {
+      try { fs.unlinkSync(removed.path); } catch (e) { console.error("Error borrando img:", e); }
+    }
+
+    saveHistory();
+
+    if (mainWindow) mainWindow.webContents.send('history-updated', history);
+  }
+});
+
 
 
 ipcMain.on('clear-history', () => {

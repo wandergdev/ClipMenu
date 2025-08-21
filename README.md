@@ -1,86 +1,71 @@
 # ClipMenu – Clipboard Manager para macOS
 
+[![GitHub release](https://img.shields.io/github/v/release/wandergdev/clipmenu)](https://github.com/wandergdev/clipmenu/releases)
+[![License](https://img.shields.io/github/license/wandergdev/clipmenu)](LICENSE)
+
 **ClipMenu** es un gestor de portapapeles (clipboard manager) para macOS desarrollado con [Electron](https://www.electronjs.org/).  
 Funciona de forma similar a la función `Win + V` de Windows: guarda automáticamente texto e imágenes que copies, y te permite reutilizarlos rápidamente desde un historial accesible con un atajo de teclado.
 
-## ✨ Características
+---
 
-- 📋 Guarda automáticamente texto e imágenes que copies al portapapeles.
-- 🔍 Historial accesible con `⌘ + ⇧ + V`.
-- 🖼️ Miniaturas más grandes para las imágenes copiadas.
-- 🗑️ Limpieza automática de historial mayor a **2 días**.
-- 🚀 Siempre disponible en la **barra de menú** (menubar app).
-- ⌨️ Pegar automático: al seleccionar un item se pega directamente en la app donde estabas.
-- 💾 Persistencia: historial y archivos se guardan en  
-  `~/Library/Application Support/ClipMenu`.
+## 📸 Capturas de pantalla
 
-## 📦 Instalación (modo desarrollo)
+### Vista General del Clipboard
+![alt text](./screenshot/VistaCompleta.png)
 
-1. Clonar el repositorio:
-  
-  ```bash
-  git clone https://github.com/wandergdev/clipmenu.git
-  cd clipmenu
-  ```
-  
-2. Instalar dependencias:
-  
-  ```bash
-  npm install
-  ```
-  
-3. Ejecutar en modo desarrollo:
-  
-  ```bash
-  npm start
-  ```
-  
+### Vista por filtrado
+![alt text](./screenshot//VistaFiltradoTexto.png)
+![alt text](./screenshot/VistaFiltradoImage.png)
 
-## 🔨 Empaquetar la app (macOS)
+## 📸 Demo
+![ClipMenu Demo](./screenshot/clipMenu.gif)
 
-Para generar un `.dmg` instalable:
+---
 
-1. Instala [electron-builder](https://www.electron.build/):
-  
-  ```bash
-  npm install --save-dev electron-builder
-  ```
-  
-2. En `package.json` agrega:
-  
-  ```json
-  "scripts": {
-    "start": "electron .",
-    "dist": "electron-builder"
-  },
-  "build": {
-    "appId": "com.wander.clipmenu",
-    "mac": {
-      "category": "public.app-category.productivity"
-    }
-  }
-  ```
-  
-3. Empaqueta:
-  
-  ```bash
-  npm run dist
-  ```
-  
+## ✨ Funcionalidades destacadas
 
-Esto generará un `.dmg` o `.app` en la carpeta `dist/`.
+- 📋 Guarda automáticamente texto e imágenes del portapapeles.
+- 🔍 Historial rápido accesible con `⌘ + ⇧ + V`.
+- 🖼️ Miniaturas grandes para previsualizar imágenes copiadas.
+- ⌨️ Pega automáticamente al seleccionar un item.
+- 🗑️ Limpieza automática de items antiguos (mayores a 2 días).
+- 🚀 Siempre disponible en la barra de menú de macOS.
+- 💾 Persistencia: historial y archivos se guardan en `~/Library/Application Support/ClipMenu`.
 
-## 🚀 Uso
+---
 
-- Usa `⌘ + ⇧ + V`/ `cmd + shift + v`  para abrir el historial.
-  
-- Haz click en un elemento para copiarlo y pegarlo automáticamente en la app que estabas usando.
-  
-- Desde el icono en la barra de menú puedes:
-  
-  - Mostrar historial.
-  - Activar/desactivar inicio automático.
-  - Salir de la aplicación.
+## 📥 Descarga
+
+Descarga la última versión de ClipMenu para macOS:
+
+[Download ClipMenu v0.1.0](https://github.com/wandergdev/clipmenu/releases/download/v0.1.0/ClipMenu-0.1.0.dmg)
+
+---
+
+## 📦 Instalación para desarrolladores
+
+Si quieres probar o contribuir al proyecto:
+
+1. Clona el repositorio:
+   
+   ```bash
+   git clone https://github.com/wandergdev/clipmenu.git
+   cd clipmenu
+   ```
+
+2. Instala dependencias:
+   
+   ```bash
+   npm install
+   ```
+
+3. Ejecuta en modo desarrollo:
+   
+   ```bash
+   npm start
+   ```
+
+---
 
 ## 📂 Estructura del proyecto
 
@@ -95,12 +80,23 @@ clipmenu/
  └── README.md
 ```
 
+---
+
 ## 🤝 Contribuciones
 
-¡Contribuciones son bienvenidas!
+¡Contribuciones son bienvenidas!  
 Si quieres mejorar ClipMenu, abre un *issue* o envía un *pull request*.
+
+---
 
 ## 📜 Licencia
 
-Este proyecto está licenciado bajo la licencia MIT.
+Este proyecto está licenciado bajo la licencia MIT.  
 Consulta el archivo [LICENSE](LICENSE) para más información.
+
+---
+
+## 📝 Notas
+
+- Compatibilidad: macOS 10.15 o superior  
+- Requerimientos: Node.js y npm
