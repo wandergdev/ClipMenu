@@ -38,8 +38,8 @@ Funciona de forma similar a la función `Win + V` de Windows: guarda automática
 
 Descarga la última versión de ClipMenu para macOS:
 
-[Download ClipMenu v0.1.0](https://github.com/wandergdev/clipmenu/releases/download/v0.1.0/ClipMenu-0.1.0.dmg)
-
+- [DMG – Instalador macOS](https://github.com/wandergdev/ClipMenu/releases/download/v0.1.0/ClipMenu-0.1.0-arm64.dmg)
+- [ZIP – Versión portable](https://github.com/wandergdev/ClipMenu/releases/download/v0.1.0/ClipMenu-0.1.0-arm64-mac.zip)
 ---
 
 ## 📦 Instalación para desarrolladores
